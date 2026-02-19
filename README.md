@@ -7,3 +7,7 @@ Run these commands from the homework4 directory of the project:
 `npx ts-node src/index.ts validate`  — Generates a report comparing row counts between Sakila and Analytics.
 
 `npx ts-node src/index.ts incremental` incremental — Syncs only new or updated records since the last successful load.
+
+
+entities are found in `homework4/src/entities`
+ETL logic is located in `homework4/src/services`
