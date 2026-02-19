@@ -38,7 +38,7 @@ import {
     loadStore,
     createFilmActorBridge,
     createFilmCategoryBridge,
-    createPaymentFact,
+    syncPaymentFact,
     syncRentalFact,
     populateDimDate
     // incrementalRentalSync
@@ -101,21 +101,26 @@ export async function validateMigration() {
 }
 
 
-async function runSync() {
-    // create dim tables
-    await loadActors();
-    await loadCategory();
-    await loadCustomer();
-    await loadFilm();
-    await loadStore();
+async function runSync(isIncremental: boolean = false) {
+    
+    if (!isIncremental) {
+        // create dim tables
+        await loadCategory();
+        await loadCustomer();
+        await loadFilm();
+        await loadStore();
 
-    // create bridge tables
-    await createFilmActorBridge();
-    await createFilmCategoryBridge();
+        // create bridge tables
+        await createFilmActorBridge();
+        await createFilmCategoryBridge();
+    }
+    await loadActors(isIncremental);
+
+    
 
     // create fact tables
-    await createPaymentFact();
-    await syncRentalFact();
+    await syncPaymentFact(isIncremental);
+    await syncRentalFact(isIncremental);
 }
 
 async function startApp() {
@@ -150,8 +155,7 @@ async function startApp() {
 
             case "incremental":
                 const beforeCount = await AnalyticsSource.getRepository(FactRental).count();
-                await syncRentalFact(true);
-                await loadActors(true);
+                await runSync(true);
                 const afterCount = await AnalyticsSource.getRepository(FactRental).count();
                 console.log(`Before: ${beforeCount} : After ${afterCount}`);
                 break;
