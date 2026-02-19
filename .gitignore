@@ -1,0 +1,4 @@
+MPCS-53001/node_modules/
+MPCS-53001/*.sqlite
+node_modules/
+*.sqlite
