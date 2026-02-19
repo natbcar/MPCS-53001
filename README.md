@@ -1,3 +1,4 @@
+# Instructions
 Run these commands from the homework4 directory of the project:
 
 `npx ts-node src/index.ts init` — Creates the SQLite schema and populates the static DimDate table.
@@ -8,6 +9,6 @@ Run these commands from the homework4 directory of the project:
 
 `npx ts-node src/index.ts incremental` incremental — Syncs only new or updated records since the last successful load.
 
-
-entities are found in `homework4/src/entities`
+# ORM Models and ETL code
+entities are found in `homework4/src/entities` \
 ETL logic is located in `homework4/src/services`
